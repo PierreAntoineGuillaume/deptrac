@@ -1,0 +1,905 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Deptrac: keep your architecture clean">
+      
+      
+      
+        <link rel="canonical" href="https://qossmic.github.io/deptrac/depfile/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.11">
+    
+    
+      
+        <title>Depfile - Deptrac</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.50e68009.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#depfile" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Deptrac" class="md-header__button md-logo" aria-label="Deptrac" data-md-component="logo">
+      
+  <img src="../qossmic.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Deptrac
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Depfile
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/qossmic/deptrac" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    qossmic/deptrac
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href=".." class="md-tabs__link">
+      Home
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../concepts/" class="md-tabs__link">
+      Concepts
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      Depfile
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../collectors/" class="md-tabs__link">
+      Collectors
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../formatters/" class="md-tabs__link">
+      Formatters
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../debugging/" class="md-tabs__link">
+      Debugging
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../contributing/" class="md-tabs__link">
+      Contributing
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Deptrac" class="md-nav__button md-logo" aria-label="Deptrac" data-md-component="logo">
+      
+  <img src="../qossmic.png" alt="logo">
+
+    </a>
+    Deptrac
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/qossmic/deptrac" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    qossmic/deptrac
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/" class="md-nav__link">
+        Concepts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Depfile
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Depfile
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#imports-section" class="md-nav__link">
+    imports section
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-section" class="md-nav__link">
+    Parameter section
+  </a>
+  
+    <nav class="md-nav" aria-label="Parameter section">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analyser" class="md-nav__link">
+    analyser
+  </a>
+  
+    <nav class="md-nav" aria-label="analyser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#count_use_statements" class="md-nav__link">
+    count_use_statements
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#types" class="md-nav__link">
+    types
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#baseline" class="md-nav__link">
+    baseline
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exclude_files" class="md-nav__link">
+    exclude_files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#formatters" class="md-nav__link">
+    formatters
+  </a>
+  
+    <nav class="md-nav" aria-label="formatters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#graphviz" class="md-nav__link">
+    graphviz
+  </a>
+  
+    <nav class="md-nav" aria-label="graphviz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    groups
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hidden_layers" class="md-nav__link">
+    hidden_layers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ignore_uncovered_internal_classes" class="md-nav__link">
+    ignore_uncovered_internal_classes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layers" class="md-nav__link">
+    layers
+  </a>
+  
+    <nav class="md-nav" aria-label="layers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collectors" class="md-nav__link">
+    collectors
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paths" class="md-nav__link">
+    paths
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ruleset" class="md-nav__link">
+    ruleset
+  </a>
+  
+    <nav class="md-nav" aria-label="ruleset">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#allowing-transitive-dependencies" class="md-nav__link">
+    Allowing transitive dependencies
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skip_violations" class="md-nav__link">
+    skip_violations
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use_relative_path_from_depfile" class="md-nav__link">
+    use_relative_path_from_depfile
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../collectors/" class="md-nav__link">
+        Collectors
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../formatters/" class="md-nav__link">
+        Formatters
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../debugging/" class="md-nav__link">
+        Debugging
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+<h1 id="depfile">Depfile</h1>
+<p>The depfile describes your <a href="../concepts/">layers, ruleset</a> and other project
+configuration.</p>
+<h2 id="imports-section">imports section</h2>
+<p>If your depfile configuration becomes too large, you can split it up into
+multiple files that can then be imported in the main depfile using the <code>imports</code>
+section.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">imports:
+  - some/depfile.yaml
+</code></pre>
+<h2 id="parameter-section">Parameter section</h2>
+<h3 id="analyser"><code>analyser</code></h3>
+<h4 id="count_use_statements"><code>count_use_statements</code></h4>
+<p><strong>This feature is deprecated and will be removed in future release, use <a href="#types">types</a> instead.</strong></p>
+<p>By default, deptrac will analyse all occurrences for classes, including <code>use</code>
+statements. If you would like to exempt <code>use</code> statements from the analysis, you
+can change this behaviour in the depfile:</p>
+<pre><code class="language-yaml">parameters:
+  analyser:
+    count_use_statements: false
+</code></pre>
+<h4 id="types"><code>types</code></h4>
+<p>Deptrac can have different parts of the php file as a source for the dependency. By default, only class definitions and use statements can be the source of the dependency and superglobal variable usage is not tracked. To analyse file more fully, you can define what types of <code>DependencyEmmiters</code> you want to apply on the analysed file:</p>
+<pre><code class="language-yaml">parameters:
+  analyser:
+    types:
+      - use
+      - file
+      - class_superglobal
+      - function_superglobal
+</code></pre>
+<ul>
+<li><code>class</code> (default) - analyses class definitions for everything apart from superglobal usage.</li>
+<li><code>class_superglobal</code> - analyses class definitions for superglobal usage.</li>
+<li><code>use</code> (default) - analyses file definitions for use statements.</li>
+<li><code>file</code> - analyses file for everything apart from use statements and function/class definitions.</li>
+<li><code>function</code> - analyses function definitions for everything apart from superglobal usage.</li>
+<li><code>function_superglobal</code> - analyses function definitions for superglobal usage.</li>
+</ul>
+<h3 id="baseline"><code>baseline</code></h3>
+<p>You can define a baseline, i.e. existing violations that should not fail a build. The <code>baseline</code> option takes the filename where the baseline is defined.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">parameters:
+  baseline: 'deptrac.baseline.yaml'
+</code></pre>
+<h3 id="exclude_files"><code>exclude_files</code></h3>
+<p>With <code>exclude_files</code> you can specify a list of regular expressions for excluding
+certain files in your path. If any part of the file path matches a regexp
+defined here, than it will not be collected and added to your layers.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">parameters:
+  exclude_files:
+    - '#.*Test\.php$#'
+</code></pre>
+<h3 id="formatters"><code>formatters</code></h3>
+<p>Some formatters can be configured to change their output for different purposes.
+For more info on formatters see <a href="../formatters/">Formatters</a>.</p>
+<h4 id="graphviz"><code>graphviz</code></h4>
+<p>You can configure the graphviz output by hiding layers from the output or by
+grouping them.</p>
+<h5 id="groups"><code>groups</code></h5>
+<p>You can group multiple layers.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">parameters:
+  layers:
+    - User Frontend
+    - User Backend
+    - Admin Frontend
+    - Admin Backend
+  formatters:
+    graphviz:
+      groups:
+        User:
+          - User Frontend
+          - User Backend
+        Admin:
+          - Admin Frontend
+          - Admin Backend
+</code></pre>
+<p>The resulting output will look like this:</p>
+<p><img alt="GraphvizGroups" src="../examples/GraphvizGroups.png" /></p>
+<h5 id="hidden_layers"><code>hidden_layers</code></h5>
+<p>You can hide layers from the generated output. These layers will still be
+analysed and violations will be reported, but they might no longer be visible in
+the generated image.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">parameters:
+  formatters:
+    graphviz:
+      hidden_layers:
+        - Controller
+</code></pre>
+<h3 id="ignore_uncovered_internal_classes"><code>ignore_uncovered_internal_classes</code></h3>
+<p>By default, PHP internal classes will not be reported as uncovered, if they are
+not covered by a layer. If you want to change this behavior, you can set this
+option to false.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">parameters:
+  ignore_uncovered_internal_classes: false
+</code></pre>
+<h3 id="layers"><code>layers</code></h3>
+<p>For more details on layers see the <a href="../concepts/#layers">Concepts</a> documentation.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">parameters:
+  layers:
+    -
+      name: Controller
+      collectors:
+        -
+          type: className
+          regex: .*Controller.*
+</code></pre>
+<h4 id="name"><code>name</code></h4>
+<p>Each layer must have a unique name. You can use special characters, e.g. <code>()</code> in
+your names. The YAML format sometimes tries to convert certain characters into
+types, so you might want to make sure that they are interpreted as string by
+enclosing the whole name in single quotes, e.g. <code>'Controller'</code>.</p>
+<h4 id="collectors"><code>collectors</code></h4>
+<p>For a list of available collectors and their configuration format see
+<a href="../collectors/">Collectors</a>.</p>
+<h3 id="paths"><code>paths</code></h3>
+<p>The <code>path</code> option takes a list of directories, that Deptrac should analyse. In
+most cases, this is where your project's source files are located. You could
+also add the vendor/ directory if you want to collect any vendor files in layers
+as well.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">parameters:
+  paths:
+    - src/
+    - vendor/
+</code></pre>
+<h3 id="ruleset"><code>ruleset</code></h3>
+<p>A ruleset is a list of layer names, which again take a list of layer names.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">parameters:
+  ruleset:
+    Controller:
+      - Service
+    Service:
+      - Repository
+    Repository: ~
+</code></pre>
+<h4 id="allowing-transitive-dependencies">Allowing transitive dependencies</h4>
+<p>If you prepend a layer with <code>+</code> then not only this layer is allowed, but also
+all layers it allows. In the example below, the Controller can now use classes
+from the Service and the Repository layer, not just the Service layer.</p>
+<pre><code class="language-yaml">parameters:
+  ruleset:
+    Controller:
+      - +Service
+    Service:
+      - Repository
+    Repository: ~
+</code></pre>
+<h3 id="skip_violations"><code>skip_violations</code></h3>
+<p>With <code>skip_violations</code> you can tell your CI pipeline to not fail, when the
+listed violations are encountered. For more on this see
+<a href="../concepts/#violations">Concepts</a>.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">parameters:
+  skip_violations:
+    Library\LibClass:
+      - Core\CoreClass
+</code></pre>
+<h3 id="use_relative_path_from_depfile"><code>use_relative_path_from_depfile</code></h3>
+<p>By default, all paths in the configuration are assumed to be relative to the depfile they are defined in. If you want to change this behavior set this option to false.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">parameters:
+  use_relative_path_from_depfile: false
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<p>Deptrac provides parameters that can be user in your configuration.</p>
+<ul>
+<li><code>%currentWorkingDirectory%</code> The path Deptrac runs in</li>
+<li><code>%depfileDirectory%</code> The path where the depfile is stored.</li>
+</ul>
+<p>You can specify your own parameters and reuse them in your configuration:</p>
+<p>Example:</p>
+<pre><code class="language-yaml">parameters:
+  Project: MyProject
+
+  layers:
+    -
+      name: Foo
+      collectors:
+        -
+          type: implements
+          implements: '%Project%\SomeInterface'
+</code></pre>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../concepts/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Concepts" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Concepts
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../collectors/" class="md-footer__link md-footer__link--next" aria-label="Next: Collectors" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Collectors
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.top", "toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.092fa1f6.min.js"}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a9542cf.min.js"></script>
+      
+    
+  </body>
+</html>
